@@ -47,4 +47,4 @@ Sign up at https://console.groq.com to get a free API key
 - Git and GitHub
 
 ## 👨‍💻 Author
-Built by [Your Name] as my first AI project
+Built by Adarsh as my first AI project
