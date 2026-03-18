@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Chatbot</title>
+    <style>
+        body { font-family: Arial; background: #1a1a2e; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { width: 400px; height: 580px; background: #16213e; border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: #0f3460; padding: 18px; text-align: center; color: white; font-size: 18px; font-weight: bold; }
+        .messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 14px; border-radius: 16px; max-width: 80%; font-size: 14px; color: white; line-height: 1.5; }
+        .user { background: #0f3460; align-self: flex-end; }
+        .bot { background: #e94560; align-self: flex-start; }
+        .input-area { display: flex; gap: 8px; padding: 14px; background: #0f3460; }
+        input { flex: 1; padding: 10px 14px; border: none; border-radius: 20px; background: #16213e; color: white; font-size: 14px; outline: none; }
+        button { padding: 10px 18px; background: #e94560; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="header">AI Chatbot</div>
+        <div class="messages" id="messages">
+            <div class="msg bot">Hi! How can I help you today?</div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="input" placeholder="Type a message..." />
+            <button onclick="send()">Send</button>
+        </div>
+    </div>
+    <script>
+        document.getElementById("input").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") send();
+        });
+
+        async function send() {
+            const input = document.getElementById("input");
+            const messages = document.getElementById("messages");
+            const text = input.value.trim();
+            if (!text) return;
+
+            const userDiv = document.createElement("div");
+            userDiv.className = "msg user";
+            userDiv.textContent = text;
+            messages.appendChild(userDiv);
+            input.value = "";
+
+            const botDiv = document.createElement("div");
+            botDiv.className = "msg bot";
+            botDiv.textContent = "Thinking...";
+            messages.appendChild(botDiv);
+            messages.scrollTop = messages.scrollHeight;
+
+            const res = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text })
+            });
+
+            const data = await res.json();
+            botDiv.textContent = data.reply;
+            messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+</body>
+</html>

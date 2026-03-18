@@ -19,7 +19,7 @@ Powered by Groq API and LLaMA 3.3 model.
 ## ⚙️ How to Run
 
 ### 1. Clone the repository
-git clone https://github.com/YOURUSERNAME/my-chatbot.git
+git clone https://github.com/ADARSHSHIVAIAH/my-chatbot.git
 cd my-chatbot
 
 ### 2. Create virtual environment
